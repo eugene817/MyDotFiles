@@ -20,5 +20,7 @@ I am still workin on them, to make them better and easier
 
 ![](Pictures/bspwm2.png)
 ![](Pictures/bspwm3.png)
+
+#### Tasks:
 ![](Pictures/bspwm6.png)
 ![](Pictures/bspwm7.png)
