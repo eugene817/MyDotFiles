@@ -1,0 +1,186 @@
+#
+# apps
+#
+
+# terminal
+super + q
+	kitty
+
+# rofi
+super + space
+	~/.config/rofi/launchers/type-6/launcher.sh
+
+# router connection
+super + r
+	kitty ssh router
+
+# firefox
+super + b
+	firefox
+
+# thunar file browser
+super + e
+	thunar
+
+#pavucontrol
+super + v
+	pavucontrol 
+
+# obsidian
+super + d
+	obsidian
+	
+# custom tasks
+super + t
+  kitty sh -c 'source /home/yasakar/Desktop/EveryDAy/Tasks/myenv/bin/activate && python /home/yasakar/Desktop/EveryDAy/Tasks/test.py'
+
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+
+
+#
+#  Navigation
+#
+
+super + {Left,Down,Up,Right}
+	bspc node -f {west,south,north,east}
+
+# Desktops 
+super + 1
+    bspc desktop -f 1
+
+super + 2
+    bspc desktop -f 2
+
+super + 3
+    bspc desktop -f 3
+
+super + 4
+    bspc desktop -f 4
+
+super + 5
+    bspc desktop -f 5
+
+super + 6
+    bspc desktop -f 6
+
+super + 7
+    bspc desktop -f 7
+
+super + 8
+    bspc desktop -f 8
+
+super + 9
+    bspc desktop -f 9
+
+super + 0
+    bspc desktop -f 10
+
+
+# move to different desktops 
+super + shift + 1
+	bspc node focused -d 1 -f
+super + shift + 2
+	bspc node focused -d 2 -f
+super + shift + 3
+	bspc node focused -d 3 -f
+super + shift + 4
+	bspc node focused -d 4 -f
+super + shift + 5
+	bspc node focused -d 5 -f
+
+super + shift + 6
+	bspc node focused -d 6 -f
+super + shift + 7
+	bspc node focused -d 7 -f
+super + shift + 8
+	bspc node focused -d 8 -f
+super + shift + 9
+	bspc node focused -d 9 -f
+super + shift + 0
+	bspc node focused -d 10 -f
+
+super + alt + {Left,Down,Up,Right}
+	bspc node -z {left -40 0,bottom 0 40,top 0 -40,right 40 0}
+
+super + shift + {Left,Down,Up,Right}
+	bspc node -z {right -50 0,top 0 50,bottom 0 -50,left 50 0}
+
+super + {t,s,shift+f,f}
+	bspc node -t ~{tiled,pseudo_tiled,floating,fullscreen}
+
+super + m
+	bspc desktop -l next
+
+
+
+#
+#  restart/system
+#
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# shutdown
+super + Escape
+	shutdown now
+
+# reboot
+super + shift + Escape
+	reboot
+
+
+# close active window 
+super + c
+	bspc node -{c,k}
+
+#  restart sxhkd
+super + shift + s
+	pkill -USR1 -x sxhkd 
+
+
+
+#
+#  Other
+#
+
+# Monitor brightness
+XF86MonBrightnessDown
+	brightnessctl set 10%-
+
+XF86MonBrightnessUp
+	brightnessctl set +10%
+
+
+# audio
+
+# Change volume
+XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}2%
+
+
+# xscreensaver
+super + l
+	xscreensaver-command -lock

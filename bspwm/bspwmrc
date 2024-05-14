@@ -1,0 +1,41 @@
+#!/bin/sh
+
+#autostart
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+#polybar
+killall -q polybar
+while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+polybar monitor &
+polybar laptop &
+
+#random bg from folder
+feh --bg-fill $(find ~/wallpapers -type f | shuf -n 1)
+
+#composer picom
+pkill picom
+picom &
+
+# tlp (power management)
+sudo tlp start
+
+#monitor
+#check connected monitors 
+external_monitor=$(xrandr --query | grep 'HDMI-1 connected')
+
+#if monitor connected
+if [ -n "$external_monitor" ]; then
+    bspc monitor HDMI-1 -d 3 4 5 6 7 8 9 10
+    bspc monitor eDP-1 -d 1 2 
+else
+    bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8 9 10
+fi
+
+#window information
+bspc config border_width 0 
+bspc config window_gap 9
+bspc config pointer_follows_monitor true
+bspc config focus_follows_pointer true
+
+#rules
+bspc rule -a mumble state=floating follow=on focus=on
