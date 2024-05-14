@@ -16,8 +16,9 @@ I am still workin on them, to make them better and easier
 
 #### Some screenshots:
 
+![Pictures/bspwm1.png](Pictures/bspwm1.png)
 
-
-
-
-
+![](Pictures/bspwm2.png)
+![](Pictures/bspwm3.png)
+![](Pictures/bspwm4.png)
+![](Pictures/bspwm5.png)
