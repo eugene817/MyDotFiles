@@ -8,7 +8,14 @@ super + q
 
 # rofi
 super + space
-	~/.config/rofi/launchers/type-6/launcher.sh
+	~/.config/rofi/launchers/type-3/launcher.sh
+
+super + p
+  ~/.config/rofi/powermenu/type-3/powermenu.sh
+
+
+super + s
+  ~/.config/rofi/applets/bin/quicklinks.sh
 
 # router connection
 super + r
@@ -32,8 +39,18 @@ super + d
 	
 # custom tasks
 super + t
-  kitty sh -c 'source /home/yasakar/Desktop/EveryDAy/Tasks/myenv/bin/activate && python /home/yasakar/Desktop/EveryDAy/Tasks/test.py'
+# kitty nix-shell ~/shell.nix --run "python /home/yasakar/Desktop/EveryDAy/Tasks/test.py"
+  kitty sh -c 'source /home/yasakar/Desktop/EveryDAy/Tasks/env/bin/activate && python /home/yasakar/Desktop/EveryDAy/Tasks/test.py -d'
 
+super + a
+    kitty sh -c 'source /home/yasakar/Desktop/EveryDAy/Tasks/env/bin/activate && python /home/yasakar/Desktop/EveryDAy/Tasks/test.py -f /home/yasakar/Desktop/EveryDAy/Unik/UnikTasks/"Uni tasks.md"'
+
+super + w
+    feh --randomize --no-fehbg --bg-fill ~/wallpapers/
+
+# xscreensaver
+super + l
+    ~/.config/bspwm/lockscreen.sh
 
 #
 # focus/swap
@@ -66,7 +83,7 @@ super + {o,i}
 super + {Left,Down,Up,Right}
 	bspc node -f {west,south,north,east}
 
-# Desktops 
+# Переключение на рабочие столы 6-10 (монитор HDMI-1)
 super + 1
     bspc desktop -f 1
 
@@ -98,7 +115,7 @@ super + 0
     bspc desktop -f 10
 
 
-# move to different desktops 
+# Перенос на другие рабочие столы
 super + shift + 1
 	bspc node focused -d 1 -f
 super + shift + 2
@@ -181,6 +198,3 @@ XF86Audio{Raise,Lower}Volume
     pactl set-sink-volume @DEFAULT_SINK@ {+,-}2%
 
 
-# xscreensaver
-super + l
-	xscreensaver-command -lock

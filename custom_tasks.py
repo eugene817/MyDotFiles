@@ -5,14 +5,15 @@ import requests
 from rich.console import Console
 from rich.tree import Tree
 import argparse
- 
+
 console = Console()
 
 now = datetime.datetime.now()
-formatted_date = now.strftime("%d%b") + f"({now.isocalendar()[1]}-{now.isoweekday()})." + now.strftime("%y")
+formatted_date = now.strftime(
+    "%d%b") + f"({now.isocalendar()[1]}-{now.isoweekday()})." + now.strftime("%y")
 
-BOT_TOKEN = 'bot token'
-CHAT_ID = 'chat id'
+BOT_TOKEN = 'BOTTOKEN'
+CHAT_ID = 'CHATID'
 
 # Store message IDs
 sent_message_ids = []
@@ -34,18 +35,20 @@ def read_tasks(filepath):
 def print_tasks_tree(title, tasks, icon, color):
     tree = Tree(f"[bold {color}]{title}[/bold {color}]")
     for i, task in enumerate(tasks):
-        tree.add(f"{icon} [bold {color}]{task}[/bold {color}]")
+        tree.add(f"{i+1} {icon} [bold {color}]{task}[/bold {color}]")
     console.print(tree)
 
 
 def mark_task_done(filepath, tasks, lines, task_number):
     newline = f"- [X] {tasks[task_number - 1]}"
-    console.print(f"\n[bold green]Marking task as done: {newline}[/bold green]\n")
+    console.print(
+        f"\n[bold green]Marking task as done: {newline}[/bold green]\n")
 
     with open(filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
-    lines = [newline + "\n" if tasks[task_number - 1] in line else line for line in lines]
+    lines = [newline + "\n" if tasks[task_number - 1]
+             in line else line for line in lines]
 
     with open(filepath, 'w', encoding='utf-8') as file:
         file.writelines(lines)
@@ -53,36 +56,43 @@ def mark_task_done(filepath, tasks, lines, task_number):
 
 def mark_task_undone(filepath, tasks, lines, task_number):
     newline = f"- [ ] {tasks[task_number - 1]}"
-    console.print(f"\n[bold yellow]Marking task as undone: {newline}[/bold yellow]\n")
+    console.print(
+        f"\n[bold yellow]Marking task as undone: {newline}[/bold yellow]\n")
 
     with open(filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
-    lines = [newline + "\n" if tasks[task_number - 1] in line else line for line in lines]
+    lines = [newline + "\n" if tasks[task_number - 1]
+             in line else line for line in lines]
 
     with open(filepath, 'w', encoding='utf-8') as file:
         file.writelines(lines)
 
 
 def actions(filepath, tasks_undone, tasks_done, lines):
-    task_type = input("\nMark task as (d)one or (u)ndone? (d/u): ").strip().lower()
+    task_type = input(
+        "\nMark task as (d)one or (u)ndone? (d/u): ").strip().lower()
 
     if task_type == '':
         exit(0)
     if task_type == 'd':
-        task_number = int(input("\nEnter the number of the task you completed (0 to exit): "))
+        task_number = int(
+            input("\nEnter the number of the task you completed (0 to exit): "))
         if task_number == 0:
             exit(0)
         if task_number < 1 or task_number > len(tasks_undone):
-            console.print("[bold red]Invalid task number. Please try again.[/bold red]")
+            console.print(
+                "[bold red]Invalid task number. Please try again.[/bold red]")
             return
         mark_task_done(filepath, tasks_undone, lines, task_number)
     elif task_type == 'u':
-        task_number = int(input("\nEnter the number of the task to mark as undone (0 to exit): "))
+        task_number = int(
+            input("\nEnter the number of the task to mark as undone (0 to exit): "))
         if task_number == 0:
             exit(0)
         if task_number < 1 or task_number > len(tasks_done):
-            console.print("[bold red]Invalid task number. Please try again.[/bold red]")
+            console.print(
+                "[bold red]Invalid task number. Please try again.[/bold red]")
             return
         mark_task_undone(filepath, tasks_done, lines, task_number)
 
@@ -101,7 +111,8 @@ def send_telegram_message(bot_token, chat_id, message):
         sent_message_ids.append(message_id)
         console.print(f"[bold green]Message sent successfully![/bold green]")
     else:
-        console.print(f"[bold red]Failed to send message: {response.text}[/bold red]")
+        console.print(
+            f"[bold red]Failed to send message: {response.text}[/bold red]")
 
 
 def delete_telegram_messages(bot_token, chat_id):
@@ -113,9 +124,11 @@ def delete_telegram_messages(bot_token, chat_id):
         }
         response = requests.post(url, data=payload)
         if response.status_code == 200:
-            console.print(f"[bold green]Message {message_id} deleted successfully![/bold green]")
+            console.print(
+                f"[bold green]Message {message_id} deleted successfully![/bold green]")
         else:
-            console.print(f"[bold red]Failed to delete message {message_id}: {response.text}[/bold red]")
+            console.print(
+                f"[bold red]Failed to delete message {message_id}: {response.text}[/bold red]")
     sent_message_ids.clear()
 
 
@@ -129,9 +142,6 @@ def format_tasks_message(tasks_undone, tasks_done):
     for i, task in enumerate(tasks_done, 1):
         message += f"🟢 {i}. [ ] {task}\n"
     return message
-
-
-
 
 
 def init(filepath):
@@ -148,9 +158,9 @@ def init(filepath):
         print_tasks_tree("Completed Tasks", tasks_done, "✔", "green")
 
         actions(filepath, tasks_undone, tasks_done, lines)
-        
+
         delete_telegram_messages(BOT_TOKEN, CHAT_ID)
-        
+
         tasks_undone, tasks_done = read_tasks(filepath)
 
         message = format_tasks_message(tasks_undone, tasks_done)
@@ -160,12 +170,14 @@ def init(filepath):
 def main():
     parser = argparse.ArgumentParser(description="Task management script")
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-d', '--default', action='store_true', help="Use default file path")
-    group.add_argument('-f', '--file', type=str, help="Specify custom file path")
-    
+    group.add_argument('-d', '--default', action='store_true',
+                       help="Use default file path")
+    group.add_argument('-f', '--file', type=str,
+                       help="Specify custom file path")
+
     args = parser.parse_args()
-    
-    base_path = "/home/yasakar/Desktop/EveryDAy/DailyDailyDiary/Weeks/"
+
+    base_path = "PATH"
     directory = "Week" + str((datetime.date.today()).isocalendar()[1])
     base_path = os.path.join(base_path, directory)
     if args.default:
@@ -174,6 +186,7 @@ def main():
         filepath = args.file
 
     init(filepath)
+
 
 if __name__ == "__main__":
     main()

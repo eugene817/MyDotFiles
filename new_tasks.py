@@ -4,7 +4,7 @@ import argparse
 
 
 text = """
-pattern to add
+PATTERN
 """
 
 
@@ -18,7 +18,7 @@ number = 0
 
 number = args.number
 
-path = "/home/yasakar/Desktop/EveryDAy/DailyDailyDiary/Weeks/"
+path = "PATH"
 directory = "Week" + str((datetime.date.today() + datetime.timedelta(days=number)).isocalendar()[1])
 
 new_path = os.path.join(path, directory)
