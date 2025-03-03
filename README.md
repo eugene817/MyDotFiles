@@ -18,5 +18,5 @@ I am still workin on them, to make them better and easier
 
 #### Some screenshots:
 
-![Pictures/hypr1.png](Pictures/hypr1.png)
+![Pictures/hypr1.jpg](Pictures/hypr1.jpg)
 ![Pictures/hypr2.png](Pictures/hypr2.png)
