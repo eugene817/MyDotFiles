@@ -1,0 +1,22 @@
+term = xterm-256color
+theme = Arthur
+
+font-family = "FiraMono Nerd Font"
+font-thicken = true
+font-size = 21
+
+mouse-hide-while-typing = true
+
+shell-integration = zsh
+
+window-decoration = false
+macos-titlebar-style = hidden
+
+background = 000000
+background-opacity = 0.4
+background-blur-radius = 20
+
+confirm-close-surface=false
+
+keybind = global:control+s=toggle_quick_terminal
+

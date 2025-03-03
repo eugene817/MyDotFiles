@@ -1,5 +1,7 @@
 # MyDotFiles
 
+# Switch to hyprland
+
 ### About me
 Currently I'm a student of the second year of NCU (Nicolaus Copernicus University in Torun)
 I'm trying pretty hard to get the internship/job, because i love programming, especially software engineering
@@ -16,11 +18,5 @@ I am still workin on them, to make them better and easier
 
 #### Some screenshots:
 
-![Pictures/bspwm1.png](Pictures/bspwm1.png)
-
-![](Pictures/bspwm2.png)
-![](Pictures/bspwm3.png)
-
-#### Tasks:
-![](Pictures/bspwm6.png)
-![](Pictures/bspwm7.png)
+![Pictures/hypr1.png](Pictures/hypr1.png)
+![Pictures/hypr2.png](Pictures/hypr2.png)
