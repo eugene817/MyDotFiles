@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+# ~/.config/sketchybar/sketchybarrc
+
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+# Базовые настройки панели
+sketchybar --bar height=32 \
+                 position=top \
+                 color=0xff1e1e2e \
+                 blur_radius=0 \
+                 padding_left=10 \
+                 padding_right=10
+
+# Дефолтные настройки для всех модулей
+sketchybar --default icon.font="VictorMono Nerd Font:Bold:16.0" \
+                     label.font="VictorMono Nerd Font:Bold:14.0" \
+                     padding_left=8 \
+                     padding_right=8 \
+                     icon.color=0xffcdd6f4 \
+                     label.color=0xffcdd6f4
+
+# ==========================================
+# LEFT: Воркспейсы Hyprland-style
+# ==========================================
+sketchybar --add event aerospace_workspace_change
+
+ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+
+for i in {1..10}; do
+  sketchybar --add item space.$i left \
+             --subscribe space.$i aerospace_workspace_change \
+             --set space.$i \
+                   icon="${ICONS[$i-1]}" \
+                   icon.padding_left=6 \
+                   icon.padding_right=6 \
+                   click_script="aerospace workspace $i" \
+                   script="$PLUGIN_DIR/workspace.sh $i"
+done
+
+# ==========================================
+# CENTER: Статистика (CPU, RAM, Disk)
+# ==========================================
+sketchybar --add item cpu center \
+           --set cpu icon="󰻠" update_freq=2 script="$PLUGIN_DIR/cpu.sh"
+
+sketchybar --add item memory center \
+           --set memory icon="󰍛" update_freq=5 script="$PLUGIN_DIR/ram.sh"
+
+sketchybar --add item disk center \
+           --set disk icon="󰋊" update_freq=60 script="$PLUGIN_DIR/disk.sh"
+
+# ==========================================
+# RIGHT: Система
+# ==========================================
+
+
+sketchybar --add item clock right \
+           --set clock icon="" update_freq=10 script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --add item volume right \
+           --set volume script="$PLUGIN_DIR/volume.sh" \
+           --subscribe volume volume_change
+
+sketchybar --add item battery right \
+           --set battery update_freq=60 script="$PLUGIN_DIR/battery.sh" \
+           --subscribe battery system_woke power_source_change
+
+
+sketchybar --add item language right \
+           --set language icon="" \
+                          update_freq=2 \
+                          script="$PLUGIN_DIR/language.sh"
+
+# Рендер
+sketchybar --update
